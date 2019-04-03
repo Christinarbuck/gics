@@ -1,0 +1,16 @@
+{
+  "name": "gics",
+  "version": "1.0.0",
+  "description": "project for girls in computer science",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "author": "Christina Buck",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  }
+}
