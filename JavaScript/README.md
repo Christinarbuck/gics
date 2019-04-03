@@ -11,4 +11,5 @@
 
 # Notes:
 *Update any pages except server.js and refresh the browser to see changes
+
 *Changes to server.js can be seen by re-running node server.js command
