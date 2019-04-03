@@ -1,4 +1,4 @@
-# gics
+# GICS
 A repository for the gics website
 
 # Languages
