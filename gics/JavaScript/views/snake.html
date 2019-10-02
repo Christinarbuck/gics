@@ -36,13 +36,15 @@
           const SNAKE_BORDER_COLOUR = 'violet';
           const FOOD_COLOUR = 'green';
           const FOOD_BORDER_COLOUR = 'darkgreen';
+          // Block Size
+          let BLOCK_SIZE = 25
 
           let snake = [
-            {x: 150, y: 150},
-            {x: 140, y: 150},
-            {x: 130, y: 150},
-            {x: 120, y: 150},
-            {x: 110, y: 150}
+            {x: 150+5*BLOCK_SIZE, y: 150},
+            {x: 140+4*BLOCK_SIZE, y: 150},
+            {x: 130+3*BLOCK_SIZE, y: 150},
+            {x: 120+2*BLOCK_SIZE, y: 150},
+            {x: 100+BLOCK_SIZE, y: 150}
           ]
 
           // The user's score
@@ -54,7 +56,7 @@
           // Food y-coordinate
           let foodY;
           // Horizontal velocity
-          let dx = 10;
+          let dx = BLOCK_SIZE;
           // Vertical velocity
           let dy = 0;
 
@@ -113,8 +115,8 @@
           function drawFood() {
             ctx.fillStyle = FOOD_COLOUR;
             ctx.strokestyle = FOOD_BORDER_COLOUR;
-            ctx.fillRect(foodX, foodY, 10, 10);
-            ctx.strokeRect(foodX, foodY, 10, 10);
+            ctx.fillRect(foodX, foodY, BLOCK_SIZE, BLOCK_SIZE);
+            ctx.strokeRect(foodX, foodY, BLOCK_SIZE, BLOCK_SIZE);
           }
 
           /**
@@ -153,9 +155,9 @@
             }
 
             const hitLeftWall = snake[0].x < 0;
-            const hitRightWall = snake[0].x > gameCanvas.width - 10;
+            const hitRightWall = snake[0].x > gameCanvas.width - BLOCK_SIZE;
             const hitToptWall = snake[0].y < 0;
-            const hitBottomWall = snake[0].y > gameCanvas.height - 10;
+            const hitBottomWall = snake[0].y > gameCanvas.height - BLOCK_SIZE;
 
             return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
           }
@@ -167,7 +169,7 @@
            * @param { number } max - The maximum number the random number can be
            */
           function randomTen(min, max) {
-            return Math.round((Math.random() * (max-min) + min) / 10) * 10;
+            return Math.round((Math.random() * (max-min) + min) / BLOCK_SIZE) * BLOCK_SIZE;
           }
 
           /**
@@ -207,10 +209,10 @@
 
             // Draw a "filled" rectangle to represent the snake part at the coordinates
             // the part is located
-            ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
+            ctx.fillRect(snakePart.x, snakePart.y, BLOCK_SIZE, BLOCK_SIZE);
 
             // Draw a border around the snake part
-            ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
+            ctx.strokeRect(snakePart.x, snakePart.y, BLOCK_SIZE, BLOCK_SIZE);
           }
 
           /**
@@ -237,26 +239,26 @@
 
             const keyPressed = event.keyCode;
 
-            const goingUp = dy === -10;
-            const goingDown = dy === 10;
-            const goingRight = dx === 10;
-            const goingLeft = dx === -10;
+            const goingUp = dy === -BLOCK_SIZE;
+            const goingDown = dy === BLOCK_SIZE;
+            const goingRight = dx === BLOCK_SIZE;
+            const goingLeft = dx === -BLOCK_SIZE;
 
             if (keyPressed === LEFT_KEY && !goingRight) {
-              dx = -10;
+              dx = -BLOCK_SIZE;
               dy = 0;
             }
             if (keyPressed === UP_KEY && !goingDown) {
               dx = 0;
-              dy = -10;
+              dy = -BLOCK_SIZE;
             }
             if (keyPressed === RIGHT_KEY && !goingLeft) {
-              dx = 10;
+              dx = BLOCK_SIZE;
               dy = 0;
             }
             if (keyPressed === DOWN_KEY && !goingUp) {
               dx = 0;
-              dy = 10;
+              dy = BLOCK_SIZE;
             }
           }
 
