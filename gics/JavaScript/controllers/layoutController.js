@@ -15,7 +15,8 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
         templateUrl : "/views/events.html"
     })
     .when("/snake", {
-        templateUrl : "/views/snake.html"
+        templateUrl : "/views/snake.html",
+        controller: "snakeController"
     })
 
     // use the HTML5 History API
@@ -24,5 +25,11 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
 });
 
 app.controller('layoutController', function($scope, $http) {
+
+});
+
+app.controller('snakeController', function($scope, $http) {
+  console.log("Hello");
+
 
 });
