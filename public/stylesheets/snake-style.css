@@ -13,6 +13,13 @@
 
 .scoreboard{
     background-color: orange;
-    width: 40px;
-    height: 50px;
+    margin-top: 15px;
+    width: 60px;
+    height: 500px;
+}
+
+.container{
+  display: flex;
+  flex-direction: row column;
+  justify-content: space-between;
 }

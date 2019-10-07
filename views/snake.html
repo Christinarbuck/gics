@@ -8,9 +8,11 @@
   <title>Snake</title>
 </head>
 <body>
+<div class="container">
   <div id="score">0</div>
-  <div class="scoreboard col-md-3" >100<br>30</div>
   <canvas id="gameCanvas" width="500" height="500"></canvas>
+  <div class="scoreboard col-md-3" >100<br>30</div>
+</div>
 </body>
 
   <script>
@@ -79,6 +81,9 @@
         // Vertical velocity
         dy = 0;
         reset_timer = 10;
+        score = 0;
+        // Display score on screen
+        document.getElementById('score').innerHTML = score;
 
       }
 
@@ -94,7 +99,7 @@
       }
       // Call game again
       main();
-      }, GAME_SPEED)
+      }, GAME_SPEED - score)
     }
 
     /**
