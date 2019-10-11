@@ -1,0 +1,48 @@
+p{
+  font-family: arial;
+}
+
+li{
+display: inline;
+font-size: 18px;
+padding:20px;
+
+
+}
+.navbar-brand{
+font-size: 20px;
+padding-right: 30px;
+}
+
+ul{
+background-color: #12a138;
+height: 30px;
+margin:-8px;
+padding-top:8px;
+}
+
+a{
+color: white;
+font-style: normal;
+text-decoration: none;
+
+}
+
+nav a.selected{
+color:white ;
+font-size: 18px;
+
+}
+
+#gameCanvas {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#score {
+  text-align: center;
+  font-size: 120px;
+  font-family: 'Antic Slab', serif;
+}
