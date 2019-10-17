@@ -3,8 +3,9 @@ import BodyPart from "./BodyPart.js"
 
 export default class Snake
 {
-	constructor(x, y, game)
+	constructor(id, x, y, game)
 	{
+		this.snakeID = id;
 		this.blockColor = "green";
 		this.borderColor = "white";
 		this.gameSpeedIncrement = 1;
@@ -51,6 +52,60 @@ export default class Snake
 		return aboutToEat;
 	}
 
+	willTouchAnySnake(direction)
+	{
+		let aboutToTouch = false;
+		this.game.snakeObjects.forEach(snake => {
+			aboutToTouch = this.willTouchSnake(direction, snake);
+		});
+		return aboutToTouch;
+	}
+
+	willTouchSnake(direction, snake)
+	{
+		let aboutToTouch = false;
+		snake.body.forEach(element => 
+		{
+			if ( this.body[0].x + direction[0] === element.x
+				&& this.body[0].y + direction[1] === element.y)
+			{
+				aboutToTouch = true;
+			}
+		});
+		return aboutToTouch;
+	}
+
+	bounce()
+	{
+		let option1 = this.dirEnum.DIR.DOWN;
+		let option2 = this.dirEnum.DIR.UP;
+
+		if(this.direction == this.dirEnum.DIR.DOWN || this.direction
+			== this.dirEnum.DIR.UP)
+		{
+			option1 = this.dirEnum.DIR.LEFT;
+			option2 = this.dirEnum.DIR.RIGHT;
+		}
+		// Check if one direction is impossible
+		if(this.willTouchAnySnake(option1)) {
+			// If both directions are impossible, game over!
+			if(this.willTouchAnySnake(option2)) {
+				this.game.gameOver();
+			} else {
+				this.direction = option2;
+			}
+		} else if(this.willTouchAnySnake(option2)) {
+			this.direction = option1;
+		} else {
+			// Just choose a random direction
+			if(Math.round(Math.random()) == 1) {
+				this.direction = option1;
+			} else {
+				this.direction = option2;
+			}
+		}
+	}
+
 	setBlockColor(newColor) { this.blockColor = newColor; }
 
 	setBorderColor(newColor) { this.borderColor = newColor; }
@@ -78,7 +133,21 @@ export default class Snake
 		if (this.isOffScreen())
 		{
 			this.game.gameOver();
+			return;
 		}
+		this.game.snakeObjects.forEach(element => {
+			console.log("Checking snake");
+			if (this.willTouchSnake(this.direction, element)) {
+				if(element.snakeID == this.snakeID) {
+					this.game.gameOver();
+					return;
+				} else {
+					console.log("BOUNCE");
+					// bounce
+					this.bounce();
+				}
+			}
+		});
 		if (this.isAboutToEat())
 		{
 			this.body.push(new BodyPart(this.body[this.body.length - 1].x,

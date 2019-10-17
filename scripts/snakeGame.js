@@ -23,15 +23,16 @@ export default class SnakeGame
 		this.gameWidth = gameWidth;
 		this.gameHeight = gameHeight;
 		this.gameObjects = [];
+		this.snakeObjects = [];
 		this.foodObjects = [];
 		this.resetCount = 0;
 	}// end constructor
 
 	initialize()
 	{
-		this.player1 = new Snake(400, 40, this);
+		this.player1 = new Snake(1, 400, 40, this);
 		this.player1.setBlockColor("blue");
-		this.player2 = new Snake(40, 40, this);
+		this.player2 = new Snake(2, 40, 40, this);
 		this.player2.setBlockColor("red");
 		this.food = new Food(this);
 		new InputHandler(this.player1, this.KEYS.LEFT_ARROW, this.KEYS.RIGHT_ARROW, 
@@ -39,6 +40,7 @@ export default class SnakeGame
 		new InputHandler(this.player2, this.KEYS.A, this.KEYS.D, 
 			this.KEYS.W, this.KEYS.S);
 		this.gameObjects.push(this.player1, this.player2, this.food);
+		this.snakeObjects.push(this.player1, this.player2);
 		this.foodObjects.push(this.food);
 	}// end method
 
@@ -68,8 +70,8 @@ export default class SnakeGame
 	reset()
 	{
 		this.score = 0;
-		this.player1.reset(40, 40);
-		this.player2.reset(400, 40);
+		this.player1.reset(this.BLOCK_SIZE, this.BLOCK_SIZE*3);
+		this.player2.reset(this.gameWidth - this.BLOCK_SIZE*4, this.BLOCK_SIZE*3);
 		this.food.respawn();
 	}
 
