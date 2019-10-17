@@ -17,7 +17,7 @@ export default class SnakeGame
 			D: 68
 		};
 		this.backgroundColor = "green";
-		this.gameSpeed = 30;
+		this.gameSpeed = 25;
 		this.score = 0;
 		this.BLOCK_SIZE = 40;
 		this.gameWidth = gameWidth;
@@ -60,7 +60,8 @@ export default class SnakeGame
 		// Make speed of reset fast if the game had not progressed much at all,
 		// but slow if the game had gone on very long, so players with long games
 		// can appreciate their giant snakes
-		this.resetCount = this.score;
+		console.log(this.score)
+		this.resetCount = this.score*2+1;
 		this.score = 20;
 	}
 	
