@@ -25,8 +25,8 @@ export default class Food
 
 	respawn()
 	{
-		this.x = this.randSizeMultiple(0, this.game.getGameWidth());
-		this.y = this.randSizeMultiple(0, this.game.getGameHeight());
+		this.x = this.randSizeMultiple(0, this.game.getGameWidth() - this.game.BLOCK_SIZE);
+		this.y = this.randSizeMultiple(0, this.game.getGameHeight() - this.game.BLOCK_SIZE);
 		if (this.x > this.game.getGameWidth() || this.y > this.game.getGameHeight())
 		{
 			this.respawn();
