@@ -17,7 +17,8 @@ export default class SnakeGame
 			D: 68
 		};
 		this.backgroundColor = "green";
-		this.gameSpeed = 20;
+		this.gameSpeed = 30;
+		this.score = 0;
 		this.BLOCK_SIZE = 40;
 		this.gameWidth = gameWidth;
 		this.gameHeight = gameHeight;
@@ -45,13 +46,13 @@ export default class SnakeGame
 
 	getGameHeight() { return this.gameHeight; }
 
-	getGameSpeed() { return this.gameSpeed; }
+	getGameSpeed() { return this.gameSpeed - this.score; }
 
 	getFoodObjects() { return this.foodObjects; }
 
 	setGameSpeed(newSpeed) {
 		if(newSpeed > 1) {
-			this.gameSpeed = newSpeed;
+			this.score = this.gameSpeed - newSpeed;
 		}
 	}
 
@@ -59,13 +60,13 @@ export default class SnakeGame
 		// Make speed of reset fast if the game had not progressed much at all,
 		// but slow if the game had gone on very long, so players with long games
 		// can appreciate their giant snakes
-		this.gameSpeed = 20 - this.gameSpeed;
-		this.resetCount = 10;
+		this.resetCount = this.score;
+		this.score = 20;
 	}
 	
 	reset()
 	{
-		this.gameSpeed = 20;
+		this.score = 0;
 		this.player1.reset(40, 40);
 		this.player2.reset(400, 40);
 		this.food.respawn();

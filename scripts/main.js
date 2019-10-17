@@ -11,7 +11,7 @@ snakeGame.initialize();
 function gameLoop(timeStamp)
 	{
 		counter++;
-		if(counter % snakeGame.gameSpeed == 0) {
+		if(counter % Math.round(snakeGame.getGameSpeed()/2) == 0) {
 			counter = 0;
 			snakeGame.update();
 			snakeGame.draw(ctx);
@@ -19,4 +19,4 @@ function gameLoop(timeStamp)
 	}// end method
 	// tells the browser to call this function right before every render of the page occurs
 	// requestAnimationFrame(gameLoop);
-setInterval(gameLoop, 25);
+setInterval(gameLoop, 30);
