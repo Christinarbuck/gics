@@ -22,6 +22,7 @@ export default class Snake
 		];
 		this.powerup = 0;
 		this.poweruptimer = 0;
+		this.alive = true;
 		// [150, 50, DIR.RIGHT], [120, 50, DIR.RIGHT]
 
 	}// end constructor
@@ -35,6 +36,10 @@ export default class Snake
 	getDirEnum() { return this.DirEnum; }// end method
 
 	IsChangingDirection() { return this.isChangingDirection; }
+
+	kill() { this.alive = false; }
+
+	isDead() { return !this.alive; }
 	
 	isOffScreen() { return this.body[0].x < 0 || this.body[0].x >= this.game.getGameWidth() ||
 		this.body[0].y < 0 || this.body[0].y >= this.game.getGameHeight(); }
@@ -47,6 +52,11 @@ export default class Snake
 			if ( this.body[0].x + this.direction[0] === element.getX()
 			&& this.body[0].y + this.direction[1] === element.getY())
 			{
+				// Check food power
+				if(element.foodtype == 1) {
+					this.powerup = 1;
+					this.poweruptimer = 20;
+				}
 				element.respawn();
 				this.game.checkFoodAmount();
 				aboutToEat = true;
@@ -95,7 +105,7 @@ export default class Snake
 		if(this.willTouchAnySnake(option1)) {
 			// If both directions are impossible, game over!
 			if(this.willTouchAnySnake(option2)) {
-				this.game.gameOver();
+				this.game.gameOver(this);
 			} else {
 				this.direction = option2;
 			}
@@ -124,59 +134,60 @@ export default class Snake
 	setIsChangingDirection(value) { this.isChangingDirection = value; }
 	
 	reset(x, y) { 
+		this.alive = true;
 		this.body = [ 
 			new BodyPart(x, y),
 			new BodyPart(x, y - this.height),
 			new BodyPart(x, y - (2 * this.height))
 		];
 		this.direction = this.dirEnum.DIR.DOWN;
+		this.poweruptimer = 0;
+		this.powerup = 0;
 	}
 
 	update()
 	{
-		this.setIsChangingDirection(false);
-		if (this.isOffScreen())
-		{
-			this.game.gameOver();
-			return;
-		}
-		this.game.snakeObjects.forEach(element => {
-			console.log("Checking snake");
-			if (this.willTouchSnake(this.direction, element)) {
-				if(element.snakeID == this.snakeID) {
-					this.game.gameOver();
-					return;
-				} else {
-					if(element.powerup == 1) {
-						this.game.gameOver();
+		if(this.alive) {
+			this.setIsChangingDirection(false);
+			if (this.isOffScreen())
+			{
+				this.game.gameOver(this);
+				return;
+			}
+			this.game.snakeObjects.forEach(element => {
+				console.log("Checking snake");
+				if (this.willTouchSnake(this.direction, element)) {
+					if(element.snakeID == this.snakeID) {
+						this.game.gameOver(this);
 						return;
-					}
-					else {
-						this.bounce();
+					} else {
+						if(element.powerup == 1) {
+							this.game.gameOver(this);
+							return;
+						}
+						else {
+							this.bounce();
+						}
 					}
 				}
+			});
+			if (this.isAboutToEat())
+			{
+				this.body.push(new BodyPart(this.body[this.body.length - 1].x,
+					this.body[this.body.length - 1].y))
+				this.game.increaseScore(this.snakeID)
 			}
-		});
-		if (this.isAboutToEat())
-		{
-			this.body.push(new BodyPart(this.body[this.body.length - 1].x,
-				this.body[this.body.length - 1].y))
-			console.log(this.game.getGameSpeed())
-			this.game.setGameSpeed(this.game.getGameSpeed() - this.gameSpeedIncrement);
-			// Check if food is spike-power food
-			//this.powerup = 1;
-			//this.poweruptimer = 20;
+			// Tick down powerup timer
+			if(this.poweruptimer > 0) {
+				this.poweruptimer--;
+				if(this.poweruptimer == 0)
+					this.powerup = 0;
+			}
+			// advance snake
+			this.body.pop();
+			this.body.unshift(new BodyPart(this.body[0].x + this.direction[0], 
+				this.body[0].y + this.direction[1]) )
 		}
-		// Tick down powerup timer
-		if(this.poweruptimer > 0) {
-			this.poweruptimer--;
-			if(this.poweruptimer == 0)
-				this.powerup = 0;
-		}
-		// advance snake
-		this.body.pop();
-		this.body.unshift(new BodyPart(this.body[0].x + this.direction[0], 
-			this.body[0].y + this.direction[1]) )
 	}// end method
 
 	draw(ctx)
@@ -184,6 +195,10 @@ export default class Snake
 		ctx.beginPath();
 		ctx.fillStyle =  this.blockColor;
 		ctx.strokeStyle = this.borderColor;
+		if(!this.alive) {
+			ctx.fillStyle =  "gray";
+			ctx.strokeStyle = "darkgray";
+		}
 
 		for (let i = 0; i < this.body.length; i++)
 		{
