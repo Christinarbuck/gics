@@ -25,7 +25,9 @@ export default class SnakeGame
 		this.gameObjects = [];
 		this.snakeObjects = [];
 		this.foodObjects = [];
+
 		this.resetCount = 0;
+		this.gameOvered = false;
 	}// end constructor
 
 	initialize()
@@ -91,6 +93,8 @@ export default class SnakeGame
 
 	gameOver(snake) {
 		snake.kill()
+		if(this.resetCount == 0)
+			this.resetCount = 5;
 		// Just kill one snake if other snakes are still alive
 		let playersLeft = false;
 		this.snakeObjects.forEach(element => {
@@ -98,13 +102,9 @@ export default class SnakeGame
 		});
 
 		if(!playersLeft) {
-			// Make speed of reset fast if the game had not progressed much at all,
-			// but slow if the game had gone on very long, so players with long games
-			// can appreciate their giant snakes
-			this.resetCount = this.getTotalScore()+1;
-			for (let i = 0; i < this.score.length; i++) {
-				this.score[i] = 20;
-			}
+			if(this.resetCount > Math.round(this.getTotalScore()/2 + 1))
+				this.resetCount = Math.round(this.getTotalScore()/2 + 1);
+			this.gameOvered = true;
 		}
 	}
 	
@@ -119,20 +119,14 @@ export default class SnakeGame
 		this.food.respawn();
 		this.gameObjects = [this.player1, this.player2, this.food];
 		this.foodObjects = [this.food];
+		this.gameOvered = false;
 	}
 
 	update()
 	{
-		if(this.resetCount <= 0) {
-			this.gameObjects.forEach(element => {
-				element.update();
-			});
-		} else {
-			this.resetCount--;
-			if(this.resetCount == 0) {
-				this.reset();
-			}
-		}
+		this.gameObjects.forEach(element => {
+			element.update();
+		});
 	}// end method
 
 	draw(ctx)
