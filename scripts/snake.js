@@ -56,7 +56,9 @@ export default class Snake
 	{
 		let aboutToTouch = false;
 		this.game.snakeObjects.forEach(snake => {
-			aboutToTouch = this.willTouchSnake(direction, snake);
+			if(this.willTouchSnake(direction, snake)) {
+				aboutToTouch = true;
+			}
 		});
 		return aboutToTouch;
 	}

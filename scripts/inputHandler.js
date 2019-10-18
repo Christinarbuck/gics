@@ -26,7 +26,7 @@ export default class InputHandler
 				break;
 			case DOWN:
 				if(snake.getDirection() != snake.dirEnum.DIR.UP
-					&& !snake.willTouchAnySnake(snake.dirEnum.DIR.DOWN)) 
+					&& !snake.willTouchAnySnake(snake.dirEnum.DIR.DOWN))
 					snake.setDirection(snake.dirEnum.DIR.DOWN);
 				break;
 			default:
