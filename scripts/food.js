@@ -32,6 +32,24 @@ export default class Food
 		{
 			this.respawn();
 		}
+		if(this.wouldTouchSnake()) {
+			this.respawn();
+		}
+	}
+
+	wouldTouchSnake()
+	{
+		let aboutToTouch = false;
+		this.game.snakeObjects.forEach(snake => {
+			snake.body.forEach(element => 
+			{
+				if ( this.x === element.x && this.y === element.y)
+				{
+					aboutToTouch = true;
+				}
+			});
+		});
+		return aboutToTouch;
 	}
 
 	update()

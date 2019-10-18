@@ -11,7 +11,7 @@ snakeGame.initialize();
 function gameLoop(timeStamp)
 	{
 		counter++;
-		if(counter % Math.round(snakeGame.getGameSpeed()/2) == 0) {
+		if(counter % Math.round(snakeGame.getGameSpeed()/3) == 0) {
 			counter = 0;
 			snakeGame.update();
 			snakeGame.draw(ctx);

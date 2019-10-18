@@ -20,6 +20,8 @@ export default class Snake
 			new BodyPart(x, y - this.height),
 			new BodyPart(x, y - (2 * this.height))
 		];
+		this.powerup = 0;
+		this.poweruptimer = 0;
 		// [150, 50, DIR.RIGHT], [120, 50, DIR.RIGHT]
 
 	}// end constructor
@@ -145,9 +147,13 @@ export default class Snake
 					this.game.gameOver();
 					return;
 				} else {
-					console.log("BOUNCE");
-					// bounce
-					this.bounce();
+					if(element.powerup == 1) {
+						this.game.gameOver();
+						return;
+					}
+					else {
+						this.bounce();
+					}
 				}
 			}
 		});
@@ -157,6 +163,15 @@ export default class Snake
 				this.body[this.body.length - 1].y))
 			console.log(this.game.getGameSpeed())
 			this.game.setGameSpeed(this.game.getGameSpeed() - this.gameSpeedIncrement);
+			// Check if food is spike-power food
+			//this.powerup = 1;
+			//this.poweruptimer = 20;
+		}
+		// Tick down powerup timer
+		if(this.poweruptimer > 0) {
+			this.poweruptimer--;
+			if(this.poweruptimer == 0)
+				this.powerup = 0;
 		}
 		// advance snake
 		this.body.pop();
@@ -167,14 +182,78 @@ export default class Snake
 	draw(ctx)
 	{
 		ctx.beginPath();
+		ctx.fillStyle =  this.blockColor;
+		ctx.strokeStyle = this.borderColor;
+
 		for (let i = 0; i < this.body.length; i++)
 		{
 			ctx.rect(this.body[i].x, this.body[i].y, this.width, this.height);
 		}
-		ctx.fillStyle =  this.blockColor;
-		// ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-		ctx.strokeStyle = this.borderColor;
 		ctx.fill();
 		ctx.stroke();
+		if(this.powerup == 1) {
+			this.drawSpikes(ctx);
+		}
 	}// end method
+
+	drawSpikes(ctx)
+	{
+		for (let i = 1; i < this.body.length; i++)
+		{
+			let openLeft = true;
+			let openRight = true;
+			let openUp = true;
+			let openDown = true;
+			// Don't put spikes in the direction of the block before this one
+			if(this.body[i-1].x < this.body[i].x) openLeft = false;
+			if(this.body[i-1].x > this.body[i].x) openRight = false;
+			if(this.body[i-1].y < this.body[i].y) openUp = false;
+			if(this.body[i-1].y > this.body[i].y) openDown = false;
+
+			if(i < this.body.length-1)
+			{
+				if(this.body[i+1].x < this.body[i].x) openLeft = false;
+				if(this.body[i+1].x > this.body[i].x) openRight = false;
+				if(this.body[i+1].y < this.body[i].y) openUp = false;
+				if(this.body[i+1].y > this.body[i].y) openDown = false;
+			}
+
+			let SPIKE_NUM=3;
+			// Draw all open slots
+			if(openLeft) {
+				ctx.moveTo(this.body[i].x, this.body[i].y);
+				for(let spike = 1; spike <= SPIKE_NUM; spike++) {
+					ctx.lineTo(this.body[i].x-this.game.BLOCK_SIZE/3, this.body[i].y+(this.game.BLOCK_SIZE*spike)/(SPIKE_NUM*2));
+					ctx.lineTo(this.body[i].x, this.body[i].y+this.game.BLOCK_SIZE*spike/SPIKE_NUM);
+				}
+				ctx.lineTo(this.body[i].x, this.body[i].y);
+			}
+			if(openRight) {
+				ctx.moveTo(this.body[i].x+this.game.BLOCK_SIZE, this.body[i].y);
+				for(let spike = 1; spike <= SPIKE_NUM; spike++) {
+					ctx.lineTo(this.body[i].x+this.game.BLOCK_SIZE+this.game.BLOCK_SIZE/3, this.body[i].y+(this.game.BLOCK_SIZE*spike)/(SPIKE_NUM*2));
+					ctx.lineTo(this.body[i].x+this.game.BLOCK_SIZE, this.body[i].y+this.game.BLOCK_SIZE*spike/SPIKE_NUM);
+				}
+				ctx.lineTo(this.body[i].x+this.game.BLOCK_SIZE, this.body[i].y);
+			}
+			if(openUp) {
+				ctx.moveTo(this.body[i].x, this.body[i].y);
+				for(let spike = 1; spike <= SPIKE_NUM; spike++) {
+					ctx.lineTo(this.body[i].x+(this.game.BLOCK_SIZE*spike)/(SPIKE_NUM*2), this.body[i].y-this.game.BLOCK_SIZE/3);
+					ctx.lineTo(this.body[i].x+this.game.BLOCK_SIZE*spike/SPIKE_NUM, this.body[i].y);
+				}
+				ctx.lineTo(this.body[i].x, this.body[i].y);
+			}
+			if(openDown) {
+				ctx.moveTo(this.body[i].x, this.body[i].y+this.game.BLOCK_SIZE);
+				for(let spike = 1; spike <= SPIKE_NUM; spike++) {
+					ctx.lineTo(this.body[i].x+(this.game.BLOCK_SIZE*spike)/(SPIKE_NUM*2), this.body[i].y+this.game.BLOCK_SIZE+this.game.BLOCK_SIZE/3);
+					ctx.lineTo(this.body[i].x+this.game.BLOCK_SIZE*spike/SPIKE_NUM, this.body[i].y+this.game.BLOCK_SIZE);
+				}
+				ctx.lineTo(this.body[i].x, this.body[i].y+this.game.BLOCK_SIZE);
+			}
+		}
+		ctx.fill();
+		ctx.stroke();
+	}
 }// end class

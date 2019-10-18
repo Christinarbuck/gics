@@ -17,7 +17,7 @@ export default class SnakeGame
 			D: 68
 		};
 		this.backgroundColor = "lightblue";
-		this.gameSpeed = 25;
+		this.gameSpeed = 28;
 		this.score = 0;
 		this.BLOCK_SIZE = 40;
 		this.gameWidth = gameWidth;
@@ -56,9 +56,9 @@ export default class SnakeGame
 
 	getGameHeight() { return this.gameHeight; }
 
-	getGameSpeed() { return this.gameSpeed - this.score; }
-
 	getFoodObjects() { return this.foodObjects; }
+
+	getGameSpeed() { return this.gameSpeed - this.score; }
 
 	setGameSpeed(newSpeed) {
 		if(newSpeed > 1) {
@@ -69,7 +69,6 @@ export default class SnakeGame
 	checkFoodAmount()
 	{
 		if(this.score > this.foodObjects.length*10) {
-			console.log("Making new food")
 			// On successful respawn, check score to see if we need to add an extra food
 			var newFood = new Food(this);
 			this.foodObjects.push(newFood);
