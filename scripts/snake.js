@@ -46,6 +46,7 @@ export default class Snake
 			&& this.body[0].y + this.direction[1] === element.getY())
 			{
 				element.respawn();
+				this.game.checkFoodAmount();
 				aboutToEat = true;
 			}
 		});

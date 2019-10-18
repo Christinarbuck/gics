@@ -31,7 +31,7 @@ export default class Food
 		if (this.x > this.game.getGameWidth() || this.y > this.game.getGameHeight())
 		{
 			this.respawn();
-		}	
+		}
 	}
 
 	update()

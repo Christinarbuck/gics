@@ -66,6 +66,17 @@ export default class SnakeGame
 		}
 	}
 
+	checkFoodAmount()
+	{
+		if(this.score > this.foodObjects.length*10) {
+			console.log("Making new food")
+			// On successful respawn, check score to see if we need to add an extra food
+			var newFood = new Food(this);
+			this.foodObjects.push(newFood);
+			this.gameObjects.push(newFood);
+		}
+	}
+
 	gameOver() {
 		// Make speed of reset fast if the game had not progressed much at all,
 		// but slow if the game had gone on very long, so players with long games
@@ -81,6 +92,8 @@ export default class SnakeGame
 		this.player1.reset(this.BLOCK_SIZE, this.BLOCK_SIZE*3);
 		this.player2.reset(this.gameWidth - this.BLOCK_SIZE*4, this.BLOCK_SIZE*3);
 		this.food.respawn();
+		this.gameObjects = [this.player1, this.player2, this.food];
+		this.foodObjects = [this.food];
 	}
 
 	update()
