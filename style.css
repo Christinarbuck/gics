@@ -6,12 +6,15 @@ li{
 display: inline;
 font-size: 18px;
 padding:20px;
-
-
 }
+
 .navbar-brand{
 font-size: 20px;
 padding-right: 30px;
+}
+
+.title{
+text-align: center;
 }
 
 ul{
@@ -36,9 +39,10 @@ font-size: 18px;
 
 #gameCanvas {
   position: absolute;
-  top: 63%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border: 5px solid cyan;
 }
 
 #score {

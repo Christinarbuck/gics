@@ -16,7 +16,7 @@ export default class SnakeGame
 			S: 83,
 			D: 68
 		};
-		this.backgroundColor = "green";
+		this.backgroundColor = "lightblue";
 		this.gameSpeed = 25;
 		this.score = 0;
 		this.BLOCK_SIZE = 40;
@@ -30,10 +30,18 @@ export default class SnakeGame
 
 	initialize()
 	{
+		
+		const SNAKE_COLOUR_1 = 'darkseagreen';
+		const SNAKE_BORDER_COLOUR_1 = 'green';
+		const SNAKE_COLOUR_2 = 'coral';
+		const SNAKE_BORDER_COLOUR_2 = 'brown';
+			
 		this.player1 = new Snake(1, 400, 40, this);
-		this.player1.setBlockColor("blue");
+		this.player1.setBlockColor(SNAKE_COLOUR_1);
+		this.player1.setBorderColor(SNAKE_BORDER_COLOUR_1);
 		this.player2 = new Snake(2, 40, 40, this);
-		this.player2.setBlockColor("red");
+		this.player2.setBlockColor(SNAKE_COLOUR_2);
+		this.player2.setBorderColor(SNAKE_BORDER_COLOUR_2);
 		this.food = new Food(this);
 		new InputHandler(this.player1, this.KEYS.LEFT_ARROW, this.KEYS.RIGHT_ARROW, 
 			this.KEYS.UP_ARROW, this.KEYS.DOWN_ARROW);

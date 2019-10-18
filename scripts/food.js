@@ -2,7 +2,8 @@ export default class Food
 {
 	constructor(game)
 	{
-		this.blockColor = "yellow";
+		this.blockColor = "lemonchiffon";
+		this.borderColor = "yellow";
 		this.x;
 		this.y;
 		this.game = game;
@@ -39,8 +40,10 @@ export default class Food
 	draw(ctx)
 	{
 		ctx.beginPath();
-		ctx.fillStyle = this.blockColor;
 		ctx.rect(this.x, this.y, this.width, this.height);
+		ctx.fillStyle = this.blockColor;
+		ctx.strokeStyle = this.borderColor;
 		ctx.fill();
+		ctx.stroke();
 	}// end method
 }// end class
