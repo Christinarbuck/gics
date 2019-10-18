@@ -26,7 +26,7 @@ export default class SnakeGame
 		this.snakeObjects = [];
 		this.foodObjects = [];
 
-		this.resetCount = 0;
+		this.resetCount = -1;
 		this.gameOvered = false;
 	}// end constructor
 
@@ -93,8 +93,8 @@ export default class SnakeGame
 
 	gameOver(snake) {
 		snake.kill()
-		if(this.resetCount == 0)
-			this.resetCount = 5;
+		if(this.resetCount == -1)
+			this.resetCount = 6;
 		// Just kill one snake if other snakes are still alive
 		let playersLeft = false;
 		this.snakeObjects.forEach(element => {
@@ -102,8 +102,8 @@ export default class SnakeGame
 		});
 
 		if(!playersLeft) {
-			if(this.resetCount > Math.round(this.getTotalScore()/2 + 1))
-				this.resetCount = Math.round(this.getTotalScore()/2 + 1);
+			if(this.resetCount > Math.round(this.getTotalScore()/5))
+				this.resetCount = Math.round(this.getTotalScore()/5);
 			this.gameOvered = true;
 		}
 	}
@@ -124,9 +124,11 @@ export default class SnakeGame
 
 	update()
 	{
-		this.gameObjects.forEach(element => {
-			element.update();
-		});
+		if(this.resetCount < 0 || this.resetCount > 1) {
+			this.gameObjects.forEach(element => {
+				element.update();
+			});
+		}
 	}// end method
 
 	draw(ctx)

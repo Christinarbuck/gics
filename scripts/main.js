@@ -25,9 +25,9 @@ function gameLoop(timeStamp)
 		timer++;
 		if(timer == Math.round(1000/FRAME_LENGTH)) {
 			timer = 0;
-			if(snakeGame.resetCount > 0) {
+			if(snakeGame.resetCount > -1) {
 				snakeGame.resetCount--;
-				if(snakeGame.resetCount == 0) {
+				if(snakeGame.resetCount == -1) {
 					snakeGame.reset()
 				}
 			}
@@ -39,10 +39,10 @@ function gameLoop(timeStamp)
 function drawTimer(ctx)
 	{
 		// Draw end timer
-		if(snakeGame.resetCount > 0) {
+		if(snakeGame.resetCount > 1) {
 			ctx.strokeStyle = "black";
 			ctx.font = "60px Arial";
-			ctx.strokeText(snakeGame.resetCount, snakeGame.gameWidth/2, snakeGame.gameHeight/2); 
+			ctx.strokeText(snakeGame.resetCount-1, snakeGame.gameWidth/2, snakeGame.gameHeight/2); 
 		}
 	}// end method
 
