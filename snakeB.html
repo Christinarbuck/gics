@@ -8,20 +8,12 @@
 </head>
 
 <body>
-    <header>
-        <a href="index.html" id="logo"></a>
-        <nav><ul>
-            <li><a href="./index.html">HOME</a></li>
-            <li><a href="./events.html">EVENTS</a></li>
-            <li><a href="./photos.html">PHOTOS</a></li>
-            <li><a href="./games.html" class="selected">GAMES</a></li>
-            <li><a href="./contact.html">CONTACT US</a></li>
-        </ul></nav>
-    </header>
-    
-    <div id="wrapper">
-        <canvas class="cvs" id="gameCanvas" width="1400" height="560"></canvas>
+    <br>
+    <div class="container">
+        <div class="score" id="p1">0</div>
+        <canvas class="cvs" id="gameCanvas" width="840" height="560"></canvas>
         <script src="scripts/main.js" type="module"></script>
+        <div class="score" id="p2">0</div>
     </div>
 </body>
 </html>

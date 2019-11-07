@@ -9,20 +9,24 @@ export default class InputHandler
 			switch (event.keyCode) 
 			{
 			case LEFT:
-				if(snake.getDirection() != snake.dirEnum.DIR.RIGHT)
+				if(snake.getDirection() != snake.dirEnum.DIR.RIGHT
+					&& !snake.willTouchAnySnake(snake.dirEnum.DIR.LEFT))
 					//console.log(snake);
 					snake.setDirection(snake.dirEnum.DIR.LEFT);
 				break;
 			case RIGHT:
-				if(snake.getDirection() != snake.dirEnum.DIR.LEFT) 
+				if(snake.getDirection() != snake.dirEnum.DIR.LEFT
+					&& !snake.willTouchAnySnake(snake.dirEnum.DIR.RIGHT)) 
 					snake.setDirection(snake.dirEnum.DIR.RIGHT);
 				break;
 			case UP:
-				if(snake.getDirection() != snake.dirEnum.DIR.DOWN) 
+				if(snake.getDirection() != snake.dirEnum.DIR.DOWN
+					&& !snake.willTouchAnySnake(snake.dirEnum.DIR.UP)) 
 					snake.setDirection(snake.dirEnum.DIR.UP);
 				break;
 			case DOWN:
-				if(snake.getDirection() != snake.dirEnum.DIR.UP) 
+				if(snake.getDirection() != snake.dirEnum.DIR.UP
+					&& !snake.willTouchAnySnake(snake.dirEnum.DIR.DOWN))
 					snake.setDirection(snake.dirEnum.DIR.DOWN);
 				break;
 			default:

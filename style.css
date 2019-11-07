@@ -6,12 +6,15 @@ li{
 display: inline;
 font-size: 18px;
 padding:20px;
-
-
 }
+
 .navbar-brand{
 font-size: 20px;
 padding-right: 30px;
+}
+
+.title{
+text-align: center;
 }
 
 ul{
@@ -34,15 +37,32 @@ font-size: 18px;
 
 }
 
-#gameCanvas {
-  position: absolute;
-  top: 63%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#score {
+.score {
   text-align: center;
+  width: 20%;
   font-size: 120px;
   font-family: 'Antic Slab', serif;
+  margin-top: 15%;
+}
+
+#p1 {
+  color: green;
+}
+
+#p2 {
+  color: red;
+}
+
+.container{
+display: flex;
+flex-direction: row column;
+justify-content: space-between;
+}
+
+#gameCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid cyan;
 }
